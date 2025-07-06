@@ -2,7 +2,7 @@
 
 namespace App\Integrations;
 
-use Osamah\LaravelDynamicIntegrations\Services\ApplicationIntegration;
+use Osamahdev1\LaravelGcpIntegration\Services\ApplicationIntegration;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 

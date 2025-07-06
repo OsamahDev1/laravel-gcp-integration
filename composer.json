@@ -1,21 +1,21 @@
 {
-    "name": "osamah/laravel-dynamic-integrations",
-    "description": "A Laravel package for creating dynamic API integrations with artisan commands and facades",
+    "name": "osamahdev1/laravel-gcp-integration",
+    "description": "A Laravel package for creating dynamic GCP integrations with artisan commands and facades",
     "type": "library",
     "license": "MIT",
     "keywords": [
         "laravel",
+        "gcp",
         "integration",
         "api",
         "dynamic",
         "facade",
         "artisan",
-        "gcp",
-        "rest"
+        "google-cloud"
     ],
     "authors": [
         {
-            "name": "Osamah",
+            "name": "osamahdev1",
             "email": "your-email@example.com"
         }
     ],
@@ -31,21 +31,21 @@
     },
     "autoload": {
         "psr-4": {
-            "Osamah\\LaravelDynamicIntegrations\\": "src/"
+            "Osamahdev1\\LaravelGcpIntegration\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Osamah\\LaravelDynamicIntegrations\\Tests\\": "tests/"
+            "Osamahdev1\\LaravelGcpIntegration\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Osamah\\LaravelDynamicIntegrations\\LaravelDynamicIntegrationsServiceProvider"
+                "Osamahdev1\\LaravelGcpIntegration\\LaravelGcpIntegrationServiceProvider"
             ],
             "aliases": {
-                "Integration": "Osamah\\LaravelDynamicIntegrations\\Facades\\Integration"
+                "Integration": "Osamahdev1\\LaravelGcpIntegration\\Facades\\Integration"
             }
         }
     },

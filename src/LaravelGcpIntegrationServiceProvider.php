@@ -1,11 +1,11 @@
 <?php
 
-namespace Osamah\LaravelDynamicIntegrations;
+namespace Osamahdev1\LaravelGcpIntegration;
 
 use Illuminate\Support\ServiceProvider;
-use Osamah\LaravelDynamicIntegrations\Console\Commands\MakeIntegration;
+use Osamahdev1\LaravelGcpIntegration\Console\Commands\MakeIntegration;
 
-class LaravelDynamicIntegrationsServiceProvider extends ServiceProvider
+class LaravelGcpIntegrationServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -13,7 +13,7 @@ class LaravelDynamicIntegrationsServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Register the dynamic integration manager
-        $this->app->singleton('laravel-dynamic-integrations.manager', function ($app) {
+        $this->app->singleton('laravel-gcp-integration.manager', function ($app) {
             return new class {
                 // This is just a placeholder - the real magic happens in the facade
             };
@@ -34,7 +34,7 @@ class LaravelDynamicIntegrationsServiceProvider extends ServiceProvider
 
         // Publish configuration if needed
         $this->publishes([
-            __DIR__ . '/../config/dynamic-integrations.php' => config_path('dynamic-integrations.php'),
+            __DIR__ . '/../config/gcp-integration.php' => config_path('gcp-integration.php'),
         ], 'config');
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Osamah\LaravelDynamicIntegrations\Facades;
+namespace Osamahdev1\LaravelGcpIntegration\Facades;
 
-use Osamah\LaravelDynamicIntegrations\Services\ApplicationIntegration;
+use Osamahdev1\LaravelGcpIntegration\Services\ApplicationIntegration;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Str;
 
 /**
- * Dynamic Integration Facade
+ * Dynamic Integration Facade for GCP Integrations
  * 
  * Usage:
  * Integration::GcpIntegration() - creates new GcpIntegration instance
@@ -19,13 +19,13 @@ use Illuminate\Support\Str;
  * @method static ApplicationIntegration ImportEntity(array $config = [])
  * @method static ApplicationIntegration MyCustomIntegration(array $config = [])
  * 
- * @see \Osamah\LaravelDynamicIntegrations\Services\ApplicationIntegration
+ * @see \Osamahdev1\LaravelGcpIntegration\Services\ApplicationIntegration
  */
 class Integration extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'laravel-dynamic-integrations.manager';
+        return 'laravel-gcp-integration.manager';
     }
 
     /**

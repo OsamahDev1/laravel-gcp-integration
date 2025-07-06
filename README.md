@@ -1,12 +1,12 @@
-# Laravel Dynamic Integrations
+# Laravel GCP Integration
 
-A Laravel package for creating dynamic API integrations with artisan commands and facades. This package allows you to quickly create integration classes for any API service and use them through a dynamic facade system.
+A Laravel package for creating dynamic GCP integrations with artisan commands and facades. This package allows you to quickly create integration classes for GCP Application Integration and other API services, using them through a dynamic facade system.
 
 ## Features
 
 - 🚀 **Dynamic Facade**: Call integrations like `Integration::GcpIntegration()`
 - 🛠️ **Artisan Command**: Generate integration classes with `php artisan make:integration`
-- 🔧 **Flexible Configuration**: Support for multiple authentication methods
+- �� **GCP Optimized**: Built specifically for Google Cloud Platform integrations
 - 📦 **Portable**: Easy to move between projects
 - 🎯 **IDE Friendly**: Full autocomplete and type hints
 - ⚡ **Simple**: Clean, intuitive API
@@ -16,7 +16,7 @@ A Laravel package for creating dynamic API integrations with artisan commands an
 Install the package via Composer:
 
 ```bash
-composer require osamah/laravel-dynamic-integrations
+composer require osamahdev1/laravel-gcp-integration
 ```
 
 The package will automatically register its service provider.
@@ -29,16 +29,16 @@ Use the artisan command to create new integration classes:
 
 ```bash
 # Basic integration
-php artisan make:integration MyApi
+php artisan make:integration MyGcpApi
 
-# With configuration
+# GCP Application Integration with configuration
 php artisan make:integration GcpApplication \
-    --base-url="https://api.gcp.com" \
-    --auth-token="your-token" \
+    --base-url="https://me-central2-integrations.googleapis.com/v1/projects/your-project/locations/me-central2/integrations/-:execute" \
+    --auth-token="your-gcp-token" \
     --timeout=60
 
 # With custom namespace and path
-php artisan make:integration CustomApi \
+php artisan make:integration CustomGcpApi \
     --namespace="App\\MyIntegrations" \
     --path="app/MyIntegrations"
 ```
@@ -46,7 +46,7 @@ php artisan make:integration CustomApi \
 ### Using the Dynamic Facade
 
 ```php
-use Osamah\LaravelDynamicIntegrations\Facades\Integration;
+use Osamahdev1\LaravelGcpIntegration\Facades\Integration;
 
 // Create GCP integration
 $gcp = Integration::GcpApplication([
@@ -56,7 +56,15 @@ $gcp = Integration::GcpApplication([
 ]);
 
 // Execute API trigger
-$result = $gcp->execute('api_trigger/data-processor', $payload);
+$result = $gcp->execute('api_trigger/learner-import-processor_API_1', [
+    'bulk_request_input' => [
+        'bulk' => $data,
+        'config' => [
+            'source_endpoint' => config('app.url') . '/webhook/progress',
+            'source_name' => 'laravel-app'
+        ]
+    ]
+]);
 
 // Get status
 $status = $gcp->getStatus($processId);
@@ -71,12 +79,12 @@ $isConnected = $gcp->testConnection();
 use App\Integrations\GcpApplicationIntegration;
 
 $integration = new GcpApplicationIntegration([
-    'base_url' => 'https://api.gcp.com',
-    'auth_token' => 'your-token',
+    'base_url' => 'https://me-central2-integrations.googleapis.com/v1/projects/your-project/locations/me-central2/integrations/-:execute',
+    'auth_token' => 'your-gcp-token',
     'timeout' => 30
 ]);
 
-$result = $integration->execute('trigger-id', $payload);
+$result = $integration->execute('api_trigger/data-processor', $payload);
 ```
 
 ### Configuration
@@ -84,14 +92,14 @@ $result = $integration->execute('trigger-id', $payload);
 Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="Osamah\LaravelDynamicIntegrations\LaravelDynamicIntegrationsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Osamahdev1\LaravelGcpIntegration\LaravelGcpIntegrationServiceProvider" --tag="config"
 ```
 
-Configure your services in `config/services.php`:
+Configure your GCP services in `config/services.php`:
 
 ```php
 'gcp_application' => [
-    'base_url' => env('GCP_APPLICATION_BASE_URL'),
+    'base_url' => env('GCP_APPLICATION_BASE_URL', 'https://me-central2-integrations.googleapis.com/v1/projects/your-project/locations/me-central2/integrations/-:execute'),
     'auth_token' => env('GCP_APPLICATION_AUTH_TOKEN'),
     'timeout' => env('GCP_APPLICATION_TIMEOUT', 30),
 ],
@@ -107,47 +115,57 @@ All integration classes extend the `ApplicationIntegration` base class and must 
 - `testConnection(): bool` - Test API connectivity
 - `getName(): string` - Get integration name
 
-## Examples
-
-### GCP Application Integration
+## GCP Application Integration Example
 
 ```php
 $gcp = Integration::GcpApplication([
-    'base_url' => 'https://me-central2-integrations.googleapis.com/v1/projects/your-project/locations/me-central2/integrations/-:execute',
-    'auth_token' => 'your-gcp-token',
+    'base_url' => 'https://me-central2-integrations.googleapis.com/v1/projects/nelc-integration-platform/locations/me-central2/integrations/-:execute',
+    'auth_token' => 'your-gcp-bearer-token',
     'timeout' => 60
 ]);
 
+// Execute learner import
 $result = $gcp->execute('api_trigger/learner-import-processor_API_1', [
     'bulk_request_input' => [
-        'bulk' => $data,
+        'bulk' => $learnerData,
         'config' => [
-            'source_endpoint' => 'https://your-app.com/webhook/progress',
-            'source_name' => 'laravel-app'
+            'source_endpoint' => 'https://your-app.com/api/v1/webhook/progress',
+            'source_name' => 'laravel-learner-import',
+            'chunk_size' => 500
+        ],
+        'auth' => [
+            'target_token' => 'webhook-auth-token'
+        ]
+    ]
+]);
+
+// Execute entity import
+$result = $gcp->execute('api_trigger/entity-import-processor_API_1', [
+    'bulk_request_input' => [
+        'bulk' => $entityData,
+        'config' => [
+            'source_endpoint' => 'https://your-app.com/api/v1/webhook/entity-progress',
+            'source_name' => 'laravel-entity-import'
         ]
     ]
 ]);
 ```
 
-### REST API Integration
+## Environment Variables
 
-```php
-$api = Integration::RestApi([
-    'base_url' => 'https://api.example.com/v1',
-    'api_key' => 'your-api-key',
-    'timeout' => 30
-]);
+Add these to your `.env` file:
 
-$result = $api->execute('data-processor', [
-    'data' => $yourData,
-    'options' => ['format' => 'json']
-]);
+```env
+GCP_APPLICATION_BASE_URL=https://me-central2-integrations.googleapis.com/v1/projects/your-project/locations/me-central2/integrations/-:execute
+GCP_APPLICATION_AUTH_TOKEN=your-gcp-bearer-token
+GCP_APPLICATION_TIMEOUT=60
 ```
 
 ## Requirements
 
 - PHP 8.1+
 - Laravel 10.0+
+- GCP Application Integration access
 
 ## License
 
@@ -156,3 +174,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Author
+
+Created by [osamahdev1](https://github.com/osamahdev1)

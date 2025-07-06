@@ -1,6 +1,6 @@
 <?php
 
-namespace Osamah\LaravelDynamicIntegrations\Services;
+namespace Osamahdev1\LaravelGcpIntegration\Services;
 
 use Illuminate\Support\Facades\Log;
 

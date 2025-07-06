@@ -1,6 +1,6 @@
 <?php
 
-namespace Osamah\LaravelDynamicIntegrations\Console\Commands;
+namespace Osamahdev1\LaravelGcpIntegration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -26,7 +26,7 @@ class MakeIntegration extends Command
      *
      * @var string
      */
-    protected $description = 'Create a new integration class';
+    protected $description = 'Create a new GCP integration class';
 
     /**
      * Execute the console command.
@@ -122,7 +122,7 @@ class MakeIntegration extends Command
 
 namespace {{namespace}};
 
-use Osamah\LaravelDynamicIntegrations\Services\ApplicationIntegration;
+use Osamahdev1\LaravelGcpIntegration\Services\ApplicationIntegration;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
@@ -289,7 +289,7 @@ STUB;
         $this->line('');
         $this->info('🚀 Usage Example:');
         $this->line('');
-        $this->line("use Osamah\\LaravelDynamicIntegrations\\Facades\\Integration;");
+        $this->line("use Osamahdev1\\LaravelGcpIntegration\\Facades\\Integration;");
         $this->line('');
         $this->line("\$integration = Integration::{$methodName}([");
         $this->line("    'base_url' => config('services.{{integrationName}}.base_url'),");
